@@ -122,16 +122,20 @@ const [profileData, setProfileData] = useState<ProfileData | null>(null)
   const transactions = profileData?.transaction ?? []
 
   const eventUserList = profileData?.event_user ?? []
-  const userLevelEntry = eventUserList.find((entry: any) => entry.userLogin === user?.login)
+const userLevelEntry = eventUserList.find(
+  (entry: { userLogin: string }) => entry.userLogin === user?.login
+)
   const userLevel = userLevelEntry?.level ?? 'N/A'
 
   const auditEntries = profileData?.audit ?? []
   const currentLogin = user?.login
-  const filteredAudits = auditEntries.filter((a: any) => a.auditorLogin !== currentLogin)
+const filteredAudits = auditEntries.filter(
+  (a: { auditorLogin: string }) => a.auditorLogin !== currentLogin
+)
 const uniquePassedPaths = new Set()
 const uniqueFailedPaths = new Set()
 
-filteredAudits.forEach((audit: any) => {
+filteredAudits.forEach((audit: { closureType: string; result?: { path?: string } }) => {
   const path = audit.result?.path
   if (!path) return // skip nulls
 
@@ -151,7 +155,7 @@ const failCount = uniqueFailedPaths.size
   ]
 
   const xpByProject: { [key: string]: number } = {}
-  transactions.forEach((entry: any) => {
+transactions.forEach((entry: { type: string; path: string; amount: number }) => {
     if (entry?.type === 'xp' && entry?.path) {
       const project = entry.path.split('/').pop() || entry.path
       xpByProject[project] = (xpByProject[project] || 0) + entry.amount
