@@ -5,6 +5,43 @@ import { PieChart } from '@mui/x-charts/PieChart'
 import { BarChart } from '@mui/x-charts/BarChart'
 import confetti from 'canvas-confetti'
 
+type ProfileData = {
+  user: {
+    auditRatio: number
+    email: string
+    firstName: string
+    lastName: string
+    login: string
+    totalDown: number
+    totalUp: number
+  }[]
+  audit: {
+    auditorLogin: string
+    closureType: string
+    result?: { path?: string }
+  }[]
+  event_user: {
+    level: string
+    userId: number
+    userLogin: string
+    eventId: number
+  }[]
+  transaction: {
+    amount: number
+    path: string
+    type: string
+    userLogin: string
+    eventId: number
+  }[]
+  transaction_aggregate: {
+    aggregate: {
+      sum: {
+        amount: number
+      } | null
+    } | null
+  } | null
+}
+
 function isJwtExpired(token: string): boolean {
   try {
     const [, payloadBase64] = token.split('.')
@@ -78,7 +115,7 @@ const query = `
 `
 
 export default function ProfilePage() {
-  const [profileData, setProfileData] = useState<any>(null)
+const [profileData, setProfileData] = useState<ProfileData | null>(null)
   const router = useRouter()
   const user = profileData?.user?.[0]
   const totalModuleXP = profileData?.transaction_aggregate?.aggregate?.sum?.amount ?? 0
@@ -176,7 +213,7 @@ const failCount = uniqueFailedPaths.size
         <div className="flex flex-col sm:flex-row justify-between items-center">
           <div>
             <h1 className="text-4xl font-extrabold text-gray-800 tracking-tight mb-2">Hey {user?.firstName || 'there'} ✨</h1>
-            <p className="text-gray-600 text-lg">You're shining through your progress!</p>
+            <p className="text-gray-600 text-lg">You&apos;re shining through your progress!</p>
           </div>
           <button
             onClick={handleLogout}

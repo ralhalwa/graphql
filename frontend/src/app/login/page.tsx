@@ -23,7 +23,7 @@ useEffect(() => {
         router.push('/profile')
       }
     } catch (err) {
-      console.warn('Invalid token format')
+      console.warn(err,'Invalid token format')
     }
   }
 }, [router])
