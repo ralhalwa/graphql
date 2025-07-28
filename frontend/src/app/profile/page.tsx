@@ -235,7 +235,7 @@ transactions.forEach((entry: { type: string; path: string; amount: number }) => 
                 <li><strong>Name:</strong> {user.firstName} {user.lastName}</li>
                 <li><strong>Email:</strong> {user.email}</li>
                 <li><strong>Login:</strong> {user.login}</li>
-                <li><strong>Audit Ratio:</strong> {user.auditRatio.toFixed(2)}</li>
+                <li><strong>Audit Ratio:</strong> {user.auditRatio.toFixed(1)}</li>
                 <li><strong>Total XP:</strong> {Math.round(totalModuleXP / 1000)}kB</li>
                 <li><strong>Level:</strong> {userLevel}</li>
               </ul>
